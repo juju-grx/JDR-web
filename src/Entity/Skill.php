@@ -48,12 +48,14 @@ class Skill
     private $type_test;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="skills", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="skills")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $element;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TypeClass::class, inversedBy="skills", nullable=true)
+     * @ORM\ManyToOne(targetEntity=TypeClass::class, inversedBy="skills")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $typeClass;
 
