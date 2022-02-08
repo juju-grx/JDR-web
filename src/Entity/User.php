@@ -2,16 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @UniqueEntity(
+ * fields = {"email"},
+ * message = "L'Email que vous avez indiqué est déja utilisé !"
+ * )
+ * @UniqueEntity(
+ * fields = {"username"},
+ * message = "Le nom d'utilisateur que vous avez indiqué est déja utilisé !"
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $username;
 
@@ -34,19 +45,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire au minimum 8 caractères")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\EqualTo(propertyPath="password", message="La comfirmation du mot de passe n'est pas valide")
+     */
+    public $verif_password;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="friends")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="users")
      */
     private $friends;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="friends")
+     */
+    private $users;
 
     public function __construct()
     {
@@ -169,6 +191,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeFriend(self $friend): self
     {
         $this->friends->removeElement($friend);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUsers(self $users): self
+    {
+        if (!$this->users->contains($users)) {
+            $this->users[] = $users;
+        }
+
+        return $this;
+    }
+
+    public function removeUsers(self $users): self
+    {
+        $this->users->removeElement($users);
 
         return $this;
     }
