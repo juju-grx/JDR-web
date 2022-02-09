@@ -1,0 +1,84 @@
+.nav-user {
+    margin-right: 0px;
+    padding-right: 1%;
+}
+
+#img-user {
+    float:right;
+    border-radius: 50%;
+}
+
+#img-user img {
+    width: 50px;
+    border-radius: 50%;
+}
+
+#img-user img:hover {
+    cursor: pointer;
+}
+
+#name-user {
+    float:right;
+    padding: 2% 2%;
+}
+
+#name-user:hover {
+    cursor: pointer;
+}
+
+#option-user {
+    border-radius: 0.5rem;
+    border-style: solid;
+    border-color: rgb(168, 168, 168);
+    background-color: rgb(39, 128, 227);
+    margin-top: 3.7rem;
+    margin-left: -1rem;
+    padding: 1%;
+    position: absolute;
+    z-index: 1000;
+    width: 10rem;
+    height: 10rem;
+}
+
+.show-option-user {
+    animation-name: show-option-user;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.hidden-option-user {
+    animation-name: hidden-option-user;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.OnLoadHidden {
+    display: none;
+    visibility: hidden;
+}
+
+@keyframes show-option-user {
+    from {
+        height:0px;
+        display: none;
+        visibility: hidden;
+    }
+    to {
+        height:10rem;
+        display: block;
+        visibility: visible;
+    }
+}
+
+@keyframes hidden-option-user {
+    from {
+        height:10rem;
+        display: block;
+        visibility: visible;
+    }
+    to {
+        height:0px;
+        display: none;
+        visibility: hidden;
+    }
+}
