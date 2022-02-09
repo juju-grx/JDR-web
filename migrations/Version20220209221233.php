@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220208225747 extends AbstractMigration
+final class Version20220209221233 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -33,6 +33,8 @@ final class Version20220208225747 extends AbstractMigration
         $this->addSql('CREATE TABLE speciality (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, rate_physical_attack DOUBLE PRECISION NOT NULL, rate_magic_attack DOUBLE PRECISION NOT NULL, rate_physical_resistance DOUBLE PRECISION NOT NULL, rate_magic_resistance DOUBLE PRECISION NOT NULL, rate_physical_stamina DOUBLE PRECISION NOT NULL, rate_magic_stamina DOUBLE PRECISION NOT NULL, rate_speed DOUBLE PRECISION NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE statistical (id INT AUTO_INCREMENT NOT NULL, physical_attack INT NOT NULL, magic_attack INT NOT NULL, physical_resistance INT NOT NULL, magic_resistance INT NOT NULL, physical_stamina INT NOT NULL, magic_stamina INT NOT NULL, speed INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE type_class (id INT AUTO_INCREMENT NOT NULL, special_action_id INT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, rate_physical_attack DOUBLE PRECISION NOT NULL, rate_magic_attack DOUBLE PRECISION NOT NULL, rate_physical_resistance DOUBLE PRECISION NOT NULL, rate_magic_resistance DOUBLE PRECISION NOT NULL, rate_physical_stamina DOUBLE PRECISION NOT NULL, rate_magic_stamina DOUBLE PRECISION NOT NULL, rate_speed DOUBLE PRECISION NOT NULL, UNIQUE INDEX UNIQ_E3479E68F3D94BB9 (special_action_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(255) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_8D93D649F85E0677 (username), UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user_user (user_source INT NOT NULL, user_target INT NOT NULL, INDEX IDX_F7129A803AD8644E (user_source), INDEX IDX_F7129A80233D34C1 (user_target), PRIMARY KEY(user_source, user_target)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE caracter ADD CONSTRAINT FK_28D5DAC4A76ED395 FOREIGN KEY (user_id) REFERENCES `user` (id)');
         $this->addSql('ALTER TABLE caracter ADD CONSTRAINT FK_28D5DAC4D0DEC93B FOREIGN KEY (statistical_id) REFERENCES statistical (id)');
         $this->addSql('ALTER TABLE caracter ADD CONSTRAINT FK_28D5DAC4EA000B10 FOREIGN KEY (class_id) REFERENCES type_class (id)');
@@ -45,7 +47,8 @@ final class Version20220208225747 extends AbstractMigration
         $this->addSql('ALTER TABLE skill ADD CONSTRAINT FK_5E3DE4771F1F2A24 FOREIGN KEY (element_id) REFERENCES element (id)');
         $this->addSql('ALTER TABLE skill ADD CONSTRAINT FK_5E3DE47727FF2CEC FOREIGN KEY (type_class_id) REFERENCES type_class (id)');
         $this->addSql('ALTER TABLE type_class ADD CONSTRAINT FK_E3479E68F3D94BB9 FOREIGN KEY (special_action_id) REFERENCES special_action (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
+        $this->addSql('ALTER TABLE user_user ADD CONSTRAINT FK_F7129A803AD8644E FOREIGN KEY (user_source) REFERENCES `user` (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE user_user ADD CONSTRAINT FK_F7129A80233D34C1 FOREIGN KEY (user_target) REFERENCES `user` (id) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema): void
@@ -62,6 +65,9 @@ final class Version20220208225747 extends AbstractMigration
         $this->addSql('ALTER TABLE mob DROP FOREIGN KEY FK_FE97F67DD0DEC93B');
         $this->addSql('ALTER TABLE caracter DROP FOREIGN KEY FK_28D5DAC4EA000B10');
         $this->addSql('ALTER TABLE skill DROP FOREIGN KEY FK_5E3DE47727FF2CEC');
+        $this->addSql('ALTER TABLE caracter DROP FOREIGN KEY FK_28D5DAC4A76ED395');
+        $this->addSql('ALTER TABLE user_user DROP FOREIGN KEY FK_F7129A803AD8644E');
+        $this->addSql('ALTER TABLE user_user DROP FOREIGN KEY FK_F7129A80233D34C1');
         $this->addSql('DROP TABLE caracter');
         $this->addSql('DROP TABLE element');
         $this->addSql('DROP TABLE entity');
@@ -75,7 +81,7 @@ final class Version20220208225747 extends AbstractMigration
         $this->addSql('DROP TABLE speciality');
         $this->addSql('DROP TABLE statistical');
         $this->addSql('DROP TABLE type_class');
-        $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74 ON `user`');
-        $this->addSql('ALTER TABLE `user` CHANGE username username VARCHAR(255) NOT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE password password VARCHAR(255) NOT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE email email VARCHAR(255) NOT NULL COLLATE `utf8mb4_unicode_ci`');
+        $this->addSql('DROP TABLE `user`');
+        $this->addSql('DROP TABLE user_user');
     }
 }

@@ -7,7 +7,8 @@
 			{% endblock %}
 		</title>
 		<link rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css">
-		<link rel="stylesheet" href="css/style.css">
+		<link
+		rel="stylesheet" href="css/style.css">
 
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
@@ -19,9 +20,9 @@
 		{% endblock %}
 	</head>
 	<body>
-		{% if app.user == null and app.request.attributes.get('_route') != 'app_login' %}
-			
-		{% endif %}
+		<script src="js/app_user_action.js"></script>
+
+		{% if app.user == null and app.request.attributes.get('_route') != 'app_login' %}{% endif %}
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
 			<div class="container-fluid">
@@ -38,7 +39,7 @@
 					</ul>
 					{% if app.user %}
 						<ul class="navbar-nav nav-user" onclick="showOption()">
-							<div id="option-user" class="OnLoadHidden hidden-option-user" onMouseOut="hiddenOptionUser()">
+							<div id="option-user" class="OnLoadHidden hidden-option-user" onmouseout="hiddenOptionUser()">
 								<li class="nav-item" id="name-user">
 									<a class="nav-link" href="{{ path('app_logout') }}">Paramétre</a>
 								</li>
@@ -53,27 +54,30 @@
 							</div>
 
 							<li class="nav-item" id="name-user">
-								<h5 class="navbar-brand"><u>{{ app.user.username }}</u></h5>
+								<h5 class="navbar-brand">
+									<u>{{ app.user.username }}</u>
+								</h5>
 							</li>
 							<li class="nav-item" id="img-user">
 								<img src="img/unknown_user.jpg" alt="?">
 							</li>
 
-					{% else %}
-						<ul class="navbar-nav nav-user">
-							<li class="nav-item" id="name-user">
-								<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-							</li>
-							<li class="nav-item" id="img-user">
-								<img src="img/unknown_user.jpg" alt="?">
-							</li>
-					{% endif %}
-						
-					</ul>
+						{% else %}
+							<ul class="navbar-nav nav-user">
+								<li class="nav-item" id="name-user">
+									<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+								</li>
+								<li class="nav-item" id="img-user">
+									<img src="img/unknown_user.jpg" alt="?">
+								</li>
+							{% endif %}
+
+						</ul>
+					</div>
 				</div>
-			</div>
-		</nav>
-		<div class="container"> {% block body %}{% endblock %} </div>
-		<script src="js/app_user_action.js"></script>
+			</nav>
+			<div class="container"> {% block body %}{% endblock %}
+				</div>
+			</body>
 		</body>
 	</html>
