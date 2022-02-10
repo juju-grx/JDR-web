@@ -5,22 +5,21 @@
 
 {% block body %}
 
-{{ form_start(form) }}
-
-<br>
-<h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
-
-
-{{ form_row(form.username, {'label' : "Pseudo", 'attr' : {'placeholder': 'Nom d\'Utilisateur', 'class': 'form-control'}}) }}
-
-	{{ form_row(form.email, {'attr' : {'placeholder': 'Adresse Mail', 'class': 'form-control'}}) }}
-
-	{{ form_row(form.password, {'attr' : {'placeholder': 'Mot de Passe', 'class': 'form-control'}}) }}
-
-	{{ form_row(form.verif_password, {'attr' : {'placeholder': 'Confirmation du Mot de passe', 'class': 'form-control'}}) }}
+	{{ form_start(form) }}
 
 	<br>
-	<button type="submit" class="btn btn-lg btn-primary">Inscription</button>
+	<h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+
+		{{ form_row(form.username, {'label' : "Pseudo", 'attr' : {'placeholder': 'Nom d\'Utilisateur', 'class': 'form-control'}}) }}
+
+		{{ form_row(form.email, {'attr' : {'placeholder': 'Adresse Mail', 'class': 'form-control'}}) }}
+
+		{{ form_row(form.password, {'attr' : {'placeholder': 'Mot de Passe', 'class': 'form-control'}}) }}
+
+		{{ form_row(form.verif_password, {'attr' : {'placeholder': 'Confirmation du Mot de passe', 'class': 'form-control'}}) }}
+
+		<br>
+		<button type="submit" class="btn btn-lg btn-primary">Inscription</button>
 
 	{{ form_end(form) }}
 
