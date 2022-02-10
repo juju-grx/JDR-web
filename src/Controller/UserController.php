@@ -33,33 +33,31 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="user_search", methods={"POST"})
+     * @Route("/search", name="user_search")
      */
-    public function userSpe(Request $request, EntityManagerInterface $entityManager)
+    public function userSpe(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository)
     {
-        if($request->isXmlHttpRequest()) {
-            $data = $request->get('searchValue');
+        $data = $request->get('searchValue');
+        $data = $data.'%';
 
-            $rawSql = "SELECT id, username, roles, email FROM user WHERE username LIKE $data";
+        $sql = "SELECT id, username, roles, email FROM user WHERE username LIKE '$data';";
+        
+        $conn = $entityManager->getConnection();
+        $stnt = $conn->prepare($sql);
+        $resultSet = $stnt->executeQuery([]);
+        $resultUsers = $resultSet->fetchAllAssociative();
 
-            $stmt = $entityManager()->getConnection()->prepare($rawSql);
-            $stmt->execute([]);
-            $resultUsers = $stmt->fetchAll();
+        if($resultUsers) {
 
-            if($resultUsers) {
-                $encoders = array(new XmlEncoder(), new JsonEncoder());
-                $normalizers = array(new ObjectNormalizer());
+            $encoders = array(new XmlEncoder(), new JsonEncoder());
+            $normalizers = array(new ObjectNormalizer());
+            $serializer = new Serializer($normalizers, $encoders);
+            $jsonContent = $serializer->serialize($resultUsers, 'json');
 
-                $serializer = new Serializer($normalizers, $encoders);
+            return $this->json(['resultData' => $resultUsers, 'code' => 200, 'message' => 'Trouver'], 200);
 
-                $jsonContent = $serializer->serialize($resultUsers, 'json');
-
-                $reponse = new JsonResponse();
-                $reponse->headers->set('Content-Type', 'application/json');
-                $reponse->setData(array('performance' => $jsonContent));
-
-                return $reponse;
-            }
+        } else {
+            return $this->json(['code' => 404, 'message' => 'Aucun Utilisateur trouvé'], 200);
         }
     }
 

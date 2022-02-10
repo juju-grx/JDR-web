@@ -17,10 +17,11 @@
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
+			<script src="/js/app_user_action.js"></script>
 		{% endblock %}
 	</head>
 	<body>
-		<script src="/js/app_user_action.js"></script>
+
 
 		{% if app.user == null and app.request.attributes.get('_route') != 'app_login' %}{% endif %}
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">

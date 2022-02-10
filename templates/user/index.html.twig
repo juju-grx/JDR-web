@@ -1,46 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Liste des Utilisateurs
+{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
 
-    <form method="post">    
-    <label for="testfriends">Recherche</label>
-			<input id="testfriends" class="form-control" type="text">
-            <input id="pathSearchUser" type="hidden" value="{{path("user_search")}}">
+	<h1>Liste des Utilisateurs</h1>
+
+
+	<form method="post">
+		<label for="testfriends">Recherche</label>
+		<input id="testfriends" class="form-control" type="text">
+		<input id="pathSearchUser" type="hidden" value="{{path("user_search")}}">
 	</form>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Roles</th>
-                <th>Email</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody id="userList">
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-lg btn-primary">edit</a>
-                    {{ include('user/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom Utilisateurs</th>
+				<th>Roles</th>
+				<th>Email</th>
+				<th style="margin-left: 3rem;">actions</th>
 
-    <script src="/js/jquery.js"></script>
+			</tr>
+		</thead>
+
+		<tbody id="userListSearch"></tbody>
+
+		<tbody id="userList">
+			{% for user in users %}
+				<tr>
+					<td>{{ user.id }}</td>
+					<td>{{ user.username }}</td>
+					<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+					<td>{{ user.email }}</td>
+					<td>
+						<a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-sg btn-primary" style="float: left;">edit</a>
+						{{ include('user/_delete_form.html.twig') }}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">Aucun Utilisateur trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
+{% block javascripts %}
+	<script src="/js/jquery.js"></script>
 	<script src="/js/friends.js"></script>
 {% endblock %}
