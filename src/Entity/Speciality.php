@@ -2,11 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\SpecialityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SpecialityRepository;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
 
 /**
  * @ORM\Entity(repositoryClass=SpecialityRepository::class)
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @DiscriminatorColumn(name="type", type="string")
+ * @DiscriminatorMap({"element" = "Element", "race" = "Race", "typeClass" = "TypeClass"})
  */
 abstract class Speciality
 {

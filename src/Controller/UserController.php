@@ -35,12 +35,11 @@ class UserController extends AbstractController
     /**
      * @Route("/search", name="user_search")
      */
-    public function userSpe(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository)
+    public function userSpe(Request $request, EntityManagerInterface $entityManager)
     {
         $data = $request->get('searchValue');
-        $data = $data.'%';
 
-        $sql = "SELECT id, username, roles, email FROM user WHERE username LIKE '$data';";
+        $sql = "SELECT id, username, roles, email FROM user WHERE username LIKE '$data%' or email LIKE '%$data%';";
         
         $conn = $entityManager->getConnection();
         $stnt = $conn->prepare($sql);
@@ -57,7 +56,7 @@ class UserController extends AbstractController
             return $this->json(['resultData' => $resultUsers, 'code' => 200, 'message' => 'Trouver'], 200);
 
         } else {
-            return $this->json(['code' => 404, 'message' => 'Aucun Utilisateur trouvé'], 200);
+            return $this->json(['code' => 404, 'message' => '<p class="text-danger">Aucun Utilisateur trouvé</p>'], 200);
         }
     }
 

@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JDR-web Elements{% endblock %}
+
+{% block body %}
+    <h1>liste des Elements</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>attack physic (%)
+                    <p></p>
+                </th>
+                <th>
+                    attack magic (%)
+                    <p></p>
+                </th>
+                <th>resistance physique (%)
+                <p></p>
+                </th>
+                <th>Rate_magic_resistance
+                <p></p>
+                </th>
+                <th>Rate_physical_stamina
+                <p></p>
+                </th>
+                <th>Rate_magic_stamina
+                <p></p>
+                </th>
+                <th>Vitesse (%)</th>
+                <th>Level</th>
+                <th>Evolution</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for element in elements %}
+            <tr>
+                <td>{{ element.id }}</td>
+                <td>{{ element.name }}</td>
+                <td>{{ element.description }}</td>
+                <td>{{ element.ratePhysicalAttack }}</td>
+                <td>{{ element.rateMagicAttack }}</td>
+                <td>{{ element.ratePhysicalResistance }}</td>
+                <td>{{ element.rateMagicResistance }}</td>
+                <td>{{ element.ratePhysicalStamina }}</td>
+                <td>{{ element.rateMagicStamina }}</td>
+                <td>{{ element.rateSpeed }}</td>
+                <td>{{ element.level }}</td>
+                <td>
+                    {% if element.evolution != null %}
+                    <a href="{{ path('element_show', {'id': element.evolution.getId()}) }}">{{ element.evolution.getName() }} </a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('element_show', {'id': element.id}) }}">show</a>
+                    <a href="{{ path('element_edit', {'id': element.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">Aucun Element trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('element_new') }}">Création d'un Element</a>
+{% endblock %}

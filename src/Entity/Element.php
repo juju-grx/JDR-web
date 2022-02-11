@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ElementRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use App\Repository\ElementRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=ElementRepository::class)
@@ -23,14 +24,20 @@ class Element extends Speciality
     private $entities;
 
     /**
-     * @ORM\OneToOne(targetEntity=Element::class, inversedBy="evolution", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="element", orphanRemoval=true)
+     */
+    private $skills;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Element::class, inversedBy="element", cascade={"persist", "remove"})
+     * @JoinColumn(name="evolution_id", referencedColumnName="id", nullable=true)
      */
     private $evolution;
 
     /**
-     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="element", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity=Element::class, mappedBy="evolution", cascade={"persist", "remove"})
      */
-    private $skills;
+    private $element;
 
     public function __construct()
     {
@@ -80,18 +87,6 @@ class Element extends Speciality
         return $this;
     }
 
-    public function getEvolution(): ?self
-    {
-        return $this->evolution;
-    }
-
-    public function setEvolution(?self $evolution): self
-    {
-        $this->evolution = $evolution;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Skill[]
      */
@@ -118,6 +113,40 @@ class Element extends Speciality
                 $skill->setElement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEvolution(): ?self
+    {
+        return $this->evolution;
+    }
+
+    public function setEvolution(?self $evolution): self
+    {
+        $this->evolution = $evolution;
+
+        return $this;
+    }
+
+    public function getElement(): ?self
+    {
+        return $this->element;
+    }
+
+    public function setElement(?self $element): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($element === null && $this->element !== null) {
+            $this->element->setEvolution(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($element !== null && $element->getEvolution() !== $this) {
+            $element->setEvolution($this);
+        }
+
+        $this->element = $element;
 
         return $this;
     }

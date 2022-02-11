@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Utilisateurs
+{% block title %}
+    Liste des Utilisateurs
 {% endblock %}
 
+
+
 {% block body %}
+    <link rel="stylesheet" href="/css/friends.css">
 
 	<h1>Liste des Utilisateurs</h1>
-
 
 	<form method="post">
 		<label for="testfriends">Recherche</label>
@@ -26,7 +29,7 @@
 			</tr>
 		</thead>
 
-		<tbody id="userListSearch"></tbody>
+		<tbody id="userListSearch" class="hidden-user-list"></tbody>
 
 		<tbody id="userList">
 			{% for user in users %}
@@ -47,8 +50,9 @@
 			{% endfor %}
 		</tbody>
 	</table>
-{% endblock %}
-{% block javascripts %}
-	<script src="/js/jquery.js"></script>
+
+    <script src="/js/jquery.js"></script>
 	<script src="/js/friends.js"></script>
+
 {% endblock %}
+    

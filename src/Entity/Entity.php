@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\EntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EntityRepository;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=EntityRepository::class)
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @DiscriminatorColumn(name="type", type="string")
+ * @DiscriminatorMap({"carater" = "Caracter", "pnj" = "Pnj"})
  */
 abstract class Entity
 {

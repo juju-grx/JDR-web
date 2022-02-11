@@ -1,12 +1,15 @@
 $(document).ready(function () {
+    var userlist = document.getElementById("userList");
+    var userlistSearch = document.getElementById("userListSearch");
+
+    /**
+     * idée afficher avec twig seulement les 10 premières recherches // système de page / ajax pour récup les autre données
+     * mappé le retour sql en objet type User, récuperer 
+    */
+
     $("#testfriends").on("input", function () {
         var val = $(this).val();
-        var userlist = $("#userList")
-        var userlistSearch = $("#userListSearch")
-        console.log(val);
         if (val != '') {
-            userlist.userlist.classList.add('hidden-user-list');
-            userlistSearch.userlist.classList.remove('hidden-user-list');
             $.ajax({
                 method: "POST",
                 url: $("#pathSearchUser").val(),
@@ -19,24 +22,26 @@ $(document).ready(function () {
                             htmlData += "<tr>"
                             htmlData += "    <td>" + user.id + "</td>"
                             htmlData += "    <td>" + user.username + "</td>"
-                            htmlData += "    <td>" + user.roles + "</td>"
+                            htmlData += "    <td> " + user.roles + "</td>"
                             htmlData += "    <td>" + user.email + "</td>"
                             htmlData += "    <td>"
-                            htmlData += "        <a href=\"{ { path('user_edit', { 'id': " + user.id + " }) } } \" class=\"btn btn - sg btn - primary\" style=\"float: left; \">edit</a>"
+                            htmlData += "        <a href=\"/user/" + user.id + "/edit\" class=\"btn btn-sg btn-primary\" style=\"float: left; \">edit</a>"
                             htmlData += "        {{ include('user/_delete_form.html.twig') }}"
                             htmlData += "    </td>"
                             htmlData += "</tr>"
                         });
                         userlistSearch.innerHTML = htmlData;
                     } else {
+                        console.log(Data.message);
                         userlistSearch.innerHTML = Data.message;
                     }
                 }
             });
+            userlist.classList.add('hidden-user-list');
+            userlistSearch.classList.remove('hidden-user-list');
         } else {
-            console.log("vide")
             userlist.classList.remove('hidden-user-list');
-            userlistSearch.userlist.classList.add('hidden-user-list');
+            userlistSearch.classList.add('hidden-user-list');
         }
     });
 });

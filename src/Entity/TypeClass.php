@@ -14,7 +14,6 @@ class TypeClass extends Speciality
 {
     /**
      * @ORM\OneToOne(targetEntity=SpecialAction::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $special_action;
 
