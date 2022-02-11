@@ -31,8 +31,14 @@ class ElementType extends AbstractType
             ->add('evolution', EntityType::class, [
                 'class' => Element::class,
                 'query_builder' => function (ElementRepository $element) use ($options){
-                    $elementName = $options['element']->getName();
-                    $elementLevel = $options['element']->getLevel();
+                    if($options['element']){
+                        $elementName = $options['element']->getName();
+                        $elementLevel = $options['element']->getLevel();
+                    } else {
+                        $elementName = ' ';
+                        $elementLevel = 1;
+                    }
+                    
                     return $element->createQueryBuilder('e')
                     ->where("e.level > $elementLevel and e.name != '$elementName'");
                 },

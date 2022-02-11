@@ -65,11 +65,11 @@ class ElementController extends AbstractController
     {
         $form = $this->createForm(ElementType::class, $element, ['element' => $element]);
         $form->handleRequest($request);
-
+        dump($form);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('element_index', [], Response::HTTP_SEE_OTHER);
+            //return $this->redirectToRoute('element_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('element/edit.html.twig', [
