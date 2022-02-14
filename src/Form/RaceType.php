@@ -2,18 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Element;
-use App\Repository\ElementRepository;
-use Doctrine\DBAL\Types\FloatType;
+use App\Entity\Race;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class ElementType extends AbstractType
+class RaceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -39,30 +35,15 @@ class ElementType extends AbstractType
                 'label' => false
             ])
             ->add('rate_speed', NumberType::class)
-            ->add('level', IntegerType::class)
-            ->add('evolution', EntityType::class, [
-                'class' => Element::class,
-                'query_builder' => function (ElementRepository $element) use ($options){
-                    if($options['element']){
-                        $elementName = $options['element']->getName();
-                        $elementLevel = $options['element']->getLevel();
-                    } else {
-                        $elementName = ' ';
-                        $elementLevel = 1;
-                    }
-                    return $element->createQueryBuilder('e')
-                    ->where("e.level > $elementLevel and e.name != '$elementName'");
-                },
-                'choice_label' => 'name'
-            ])
+            ->add('max_size', NumberType::class)
+            ->add('min_size', NumberType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Element::class,
-            'element' => null
+            'data_class' => Race::class,
         ]);
     }
 }

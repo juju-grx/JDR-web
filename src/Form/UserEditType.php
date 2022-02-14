@@ -20,6 +20,7 @@ class UserEditType extends AbstractType
                     'choices' => [
                         'Utilisateur' => 'ROLE_USER',
                         'Admin' => 'ROLE_ADMIN',
+                        'SuperAdmin' => 'ROLE_SUPERADMIN',
                     ],
                     'preferred_choices' => ['ROLE_USER'],
                     'expanded' => true,

@@ -6,15 +6,9 @@ use App\Entity\User;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -33,7 +27,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="user_search")
+     * @Route("/search", name="user_search", methods={"POST"})
      */
     public function userSpe(Request $request, EntityManagerInterface $entityManager)
     {
@@ -47,14 +41,7 @@ class UserController extends AbstractController
         $resultUsers = $resultSet->fetchAllAssociative();
 
         if($resultUsers) {
-
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-            $serializer = new Serializer($normalizers, $encoders);
-            $jsonContent = $serializer->serialize($resultUsers, 'json');
-
             return $this->json(['resultData' => $resultUsers, 'code' => 200, 'message' => 'Trouver'], 200);
-
         } else {
             return $this->json(['code' => 404, 'message' => '<p class="text-danger">Aucun Utilisateur trouvé</p>'], 200);
         }

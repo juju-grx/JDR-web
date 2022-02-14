@@ -6,10 +6,10 @@ use App\Entity\Element;
 use App\Form\ElementType;
 use App\Repository\ElementRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/element")
@@ -47,6 +47,28 @@ class ElementController extends AbstractController
             'form' => $form,
         ]);
     }
+    
+    /**
+     * @Route("/spe", name="element_spe", methods={"POST"})
+     */
+    public function elementSpe(Request $request, EntityManagerInterface $entityManager)
+    {
+        $elementLevel = $request->get('elementLevelValue');
+        $elementName = $request->get('elementNameValue');
+
+        $sql = "SELECT id, `name` FROM speciality WHERE `level` > '$elementLevel' and `name` != '$elementName';";
+        
+        $conn = $entityManager->getConnection();
+        $stnt = $conn->prepare($sql);
+        $resultSet = $stnt->executeQuery([]);
+        $resultElement = $resultSet->fetchAllAssociative();
+
+        if($resultElement) {
+            return $this->json(['resultData' => $resultElement, 'code' => 200, 'message' => 'Trouver'], 200);
+        } else {
+            return $this->json(['code' => 404, 'message' => '<p class="text-danger">Aucun Element trouvé</p>'], 200);
+        }
+    }
 
     /**
      * @Route("/{id}", name="element_show", methods={"GET"})
@@ -65,7 +87,7 @@ class ElementController extends AbstractController
     {
         $form = $this->createForm(ElementType::class, $element, ['element' => $element]);
         $form->handleRequest($request);
-        dump($form);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 

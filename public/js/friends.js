@@ -35,10 +35,10 @@ $(document).ready(function () {
                         console.log(Data.message);
                         userlistSearch.innerHTML = Data.message;
                     }
+                    userlist.classList.add('hidden-user-list');
+                    userlistSearch.classList.remove('hidden-user-list');
                 }
             });
-            userlist.classList.add('hidden-user-list');
-            userlistSearch.classList.remove('hidden-user-list');
         } else {
             userlist.classList.remove('hidden-user-list');
             userlistSearch.classList.add('hidden-user-list');
