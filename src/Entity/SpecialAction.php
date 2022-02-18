@@ -2,90 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\SpecialActionRepository;
+use App\Entity\Asset;
+use App\Entity\TypeClass;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SpecialActionRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SpecialActionRepository::class)
  */
-class SpecialAction
+class SpecialAction extends Asset
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity=TypeClass::class, inversedBy="specialAction")
      */
-    private $id;
+    private $typeClass;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $value_test;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type_test;
-
-    public function getId(): ?int
+    public function getTypeClass(): ?TypeClass
     {
-        return $this->id;
+        return $this->typeClass;
     }
 
-    public function getName(): ?string
+    public function setTypeClass(?TypeClass $typeClass): self
     {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getValueTest(): ?int
-    {
-        return $this->value_test;
-    }
-
-    public function setValueTest(int $value_test): self
-    {
-        $this->value_test = $value_test;
-
-        return $this;
-    }
-
-    public function getTypeTest(): ?string
-    {
-        return $this->type_test;
-    }
-
-    public function setTypeTest(string $type_test): self
-    {
-        $this->type_test = $type_test;
+        $this->typeClass = $typeClass;
 
         return $this;
     }

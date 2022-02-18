@@ -32,11 +32,6 @@ class Race extends Speciality
         $this->entities = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getMaxSize(): ?float
     {
         return $this->max_size;

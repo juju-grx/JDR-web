@@ -2,19 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\Element;
-use Doctrine\DBAL\Types\FloatType;
-use App\Repository\ElementRepository;
+use App\Entity\TypeClass;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class ElementType extends AbstractType
+class TypeClassType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -40,20 +37,8 @@ class ElementType extends AbstractType
                 'label' => false
             ])
             ->add('rate_speed', NumberType::class)
-            ->add('level', IntegerType::class)
-            ->add('evolution', EntityType::class, [
-                'class' => Element::class,
-                'query_builder' => function (ElementRepository $element) use ($options){
-                    if($options['element']){
-                        $elementName = $options['element']->getName();
-                        $elementLevel = $options['element']->getLevel();
-                    } else {
-                        $elementName = ' ';
-                        $elementLevel = 1;
-                    }
-                    return $element->createQueryBuilder('e')
-                    ->where("e.level > $elementLevel and e.name != '$elementName'");
-                },
+            ->add('special_action', EntityType::class, [
+                'class' => TypeClass::class,
                 'choice_label' => 'name'
             ])
         ;
@@ -62,8 +47,7 @@ class ElementType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Element::class,
-            'element' => null
+            'data_class' => TypeClass::class,
         ]);
     }
 }

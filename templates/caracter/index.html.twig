@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Caracter index{% endblock %}
+
+{% block body %}
+    <h1>Caracter index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Size</th>
+                <th>Level</th>
+                <th>Health</th>
+                <th>Strenght</th>
+                <th>Agility</th>
+                <th>Intelligence</th>
+                <th>Charisma</th>
+                <th>Constitution</th>
+                <th>Wisdom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for caracter in caracters %}
+            <tr>
+                <td>{{ caracter.id }}</td>
+                <td>{{ caracter.name }}</td>
+                <td>{{ caracter.description }}</td>
+                <td>{{ caracter.size }}</td>
+                <td>{{ caracter.level }}</td>
+                <td>{{ caracter.health }}</td>
+                <td>{{ caracter.strenght }}</td>
+                <td>{{ caracter.agility }}</td>
+                <td>{{ caracter.intelligence }}</td>
+                <td>{{ caracter.charisma }}</td>
+                <td>{{ caracter.constitution }}</td>
+                <td>{{ caracter.wisdom }}</td>
+                <td>
+                    <a href="{{ path('caracter_show', {'id': caracter.id}) }}">show</a>
+                    <a href="{{ path('caracter_edit', {'id': caracter.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('caracter_new') }}">Create new</a>
+{% endblock %}

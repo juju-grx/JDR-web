@@ -48,6 +48,8 @@ class SecurityController extends AbstractController
 
             $user->setPassword($hash);
 
+            $user->setRoles(["ROLE_ADMIN"]);
+
             $manager->persist($user);
 
             $manager->flush();

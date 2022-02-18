@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypeClass index{% endblock %}
+
+{% block body %}
+    <h1>TypeClass index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Rate_physical_attack</th>
+                <th>Rate_magic_attack</th>
+                <th>Rate_physical_resistance</th>
+                <th>Rate_magic_resistance</th>
+                <th>Rate_physical_stamina</th>
+                <th>Rate_magic_stamina</th>
+                <th>Rate_speed</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_class in type_classes %}
+            <tr>
+                <td>{{ type_class.id }}</td>
+                <td>{{ type_class.name }}</td>
+                <td>{{ type_class.description }}</td>
+                <td>{{ type_class.ratePhysicalAttack }}</td>
+                <td>{{ type_class.rateMagicAttack }}</td>
+                <td>{{ type_class.ratePhysicalResistance }}</td>
+                <td>{{ type_class.rateMagicResistance }}</td>
+                <td>{{ type_class.ratePhysicalStamina }}</td>
+                <td>{{ type_class.rateMagicStamina }}</td>
+                <td>{{ type_class.rateSpeed }}</td>
+                <td>
+                    <a href="{{ path('type_class_show', {'id': type_class.id}) }}">show</a>
+                    <a href="{{ path('type_class_edit', {'id': type_class.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_class_new') }}">Create new</a>
+{% endblock %}

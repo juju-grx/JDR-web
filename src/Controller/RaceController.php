@@ -22,7 +22,7 @@ class RaceController extends AbstractController
     public function index(RaceRepository $raceRepository): Response
     {
         $race = $raceRepository->findAll();
-        dump($race);
+        
         return $this->render('race/index.html.twig', [
             'races' => $race,
         ]);

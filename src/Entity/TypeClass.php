@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class TypeClass extends Speciality
 {
     /**
-     * @ORM\OneToOne(targetEntity=SpecialAction::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=SpecialAction::class, cascade={"persist", "remove"}, mappedBy="typeClass")
      */
     private $special_action;
 
