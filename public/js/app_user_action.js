@@ -1,12 +1,7 @@
-function showOption(){
-    var option_user = document.getElementById("option-user")
-    option_user.classList.remove('hidden-option-user')
-    option_user.classList.remove('OnLoadHidden')
-    option_user.classList.add('show-option-user')
-}
-
-function hiddenOptionUser(){
-    var option_user = document.getElementById("option-user")
-    option_user.classList.remove('show-option-user')
-    option_user.classList.add('hidden-option-user')
-}
+$(function () {
+    $(".user").hover(function () {
+        $("#option-user").css({ "height": "10rem", "display": "block", "visibility": "visible" });
+    }, function () {
+        $("#option-user").css({ "height": "", "display": "", "visibility": "" });
+    });
+});

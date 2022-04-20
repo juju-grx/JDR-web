@@ -33,7 +33,7 @@ class UserController extends AbstractController
     {
         $data = $request->get('searchValue');
 
-        $sql = "SELECT id, username, roles, email FROM user WHERE username LIKE '$data%' or email LIKE '%$data%';";
+        $sql = "SELECT id, username, roles, email FROM user WHERE username LIKE '$data%' or email LIKE '$data%';";
         
         $conn = $entityManager->getConnection();
         $stnt = $conn->prepare($sql);

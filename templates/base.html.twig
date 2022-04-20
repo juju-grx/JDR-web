@@ -30,21 +30,7 @@
 						</li>
 					</ul>
 					{% if app.user %}
-						<ul class="navbar-nav nav-user" onclick="showOption()">
-							<div id="option-user" class="OnLoadHidden hidden-option-user" onmouseout="hiddenOptionUser()">
-								<li class="nav-item" id="name-user">
-									<a class="nav-link" href="{{ path('app_logout') }}">Paramétre</a>
-								</li>
-								{% if is_granted('ROLE_ADMIN') and app.user %}
-									<li class="nav-item">
-										<a class="nav-link" href="{{ path('app_parameter') }}">paramètre</a>
-									</li>
-								{% endif %}
-								<li class="nav-item" id="name-user">
-									<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-								</li>
-							</div>
-
+						<ul class="navbar-nav nav-user user">
 							<li class="nav-item" id="name-user">
 								<h5 class="navbar-brand">
 									<u>{{ app.user.username }}</u>
@@ -53,6 +39,19 @@
 							<li class="nav-item" id="img-user">
 								<img src="/img/unknown_user.jpg" alt="?">
 							</li>
+							<div id="option-user" class="user">
+								<li class="nav-item" id="name-user">
+									<a class="nav-link" href="{{ path('app_logout') }}">Paramétre</a>
+								</li>
+								{% if is_granted('ROLE_ADMIN') and app.user %}
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('app_parameter') }}">Panel admin</a>
+									</li>
+								{% endif %}
+								<li class="nav-item" id="name-user">
+									<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+								</li>
+							</div>
 
 						{% else %}
 							<ul class="navbar-nav nav-user">
@@ -71,7 +70,7 @@
 
 			<div class="container"> {% block body %}{% endblock %}
 				</div>
-
+				<script src="/js/jquery.js"></script>
 				<script src="/js/app_user_action.js"></script>
 			</body>
 		</body>
