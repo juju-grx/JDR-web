@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+    
+        {{ form_row(form.username, {'attr' : {'class': 'form-control'}}) }}
+
+		{{ form_row(form.email, {'attr' : {'placeholder': 'Adresse Mail', 'class': 'form-control'}}) }}
+        
+        <br>
+        <div class="card border-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-header">Roles</div>
+            <div class="card-body">
+                {{ form_rest(form.roles) }}
+            </div>
+        </div>
+    <br>
+    
+    <button class="btn btn-lg btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,42 @@
+{{ form_start(form) }}
+    {{ form_row(form.name, {'attr' : {'class': 'form-control'}} ) }}
+    {{ form_row(form.description, {'attr' : {'class': 'form-control'}} ) }}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Pourcentage</th>
+                <th scope="col">Physique</th>
+                <th scope="col">Magique</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Attaque</th>
+                <td>
+                    {{ form_row(form.rate_physical_attack, {'attr' : {'class': 'form-control'}}
+                    ) }}</td>
+                <td>{{ form_row(form.rate_magic_attack, {'attr' : {'class': 'form-control'}}
+                    ) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Resistance</th>
+                <td>{{ form_row(form.rate_physical_resistance, {'attr' : {'class': 'form-control'}}
+                    ) }}</td>
+                <td>{{ form_row(form.rate_magic_resistance, {'attr' : {'class': 'form-control'}}
+                    ) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Endurance</th>
+                <td>{{ form_row(form.rate_physical_stamina, {'attr' : {'class': 'form-control'}}
+                    ) }}</td>
+                <td>{{ form_row(form.rate_magic_stamina, {'attr' : {'class': 'form-control'}}
+                    ) }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{ form_row(form.rate_speed, {'attr' : {'class': 'form-control'}} ) }}
+
+    {{ form_row(form.special_action, {'attr' : {'class': 'form-select'}} ) }}
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

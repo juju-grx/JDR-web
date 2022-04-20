@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Caracter{% endblock %}
+
+{% block body %}
+    <h1>Create new Caracter</h1>
+
+    {{ include('caracter/_form.html.twig') }}
+
+    <a href="{{ path('caracter_index') }}">back to list</a>
+{% endblock %}

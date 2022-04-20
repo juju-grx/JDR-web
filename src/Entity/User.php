@@ -70,9 +70,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Caracter::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $caracters;
+
     public function __construct()
     {
         $this->friends = new ArrayCollection();
+        $this->caracters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,5 +223,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->users->removeElement($users);
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Caracter[]
+     */
+    public function getCaracters(): Collection
+    {
+        return $this->caracters;
+    }
+
+    public function addCaracter(Caracter $caracter): self
+    {
+        if (!$this->caracters->contains($caracter)) {
+            $this->caracters[] = $caracter;
+            $caracter->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaracter(Caracter $caracter): self
+    {
+        if ($this->caracters->removeElement($caracter)) {
+            // set the owning side to null (unless already changed)
+            if ($caracter->getUser() === $this) {
+                $caracter->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->username;
     }
 }

@@ -1,0 +1,36 @@
+.nav-user {
+    margin-right: 0px;
+    padding-right: 1%;
+    cursor: pointer;
+}
+
+#img-user {
+    float: right;
+}
+
+#img-user img {
+    width: 50px;
+    border-radius: 50%;
+}
+
+#name-user {
+    float: right;
+    padding: 2% 2%;
+}
+
+#option-user {
+    border-radius: 0.5rem;
+    border-style: solid;
+    border-color: rgb(168, 168, 168);
+    background-color: rgb(39, 128, 227);
+    margin-top: 3.7rem;
+    margin-left: -1rem;
+    padding: 1%;
+    padding-left: -2rem;
+    position: absolute;
+    z-index: 1000;
+    width: 10rem;
+    height: 0px;
+    display: none;
+    visibility: hidden;
+}

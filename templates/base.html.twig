@@ -6,41 +6,72 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
-		<link
-		rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css">
 
-		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
-		{% endblock %}
+		<link rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
 
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-		{% endblock %}
 	</head>
 	<body>
+
+
+		{% if app.user == null and app.request.attributes.get('_route') != 'app_login' %}{% endif %}
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
 			<div class="container-fluid">
-				<a class="navbar-brand" href="{{ path('home') }}">SymBlog</a>
+				<a class="navbar-brand" href="{{ path('home') }}">JDR-web</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 
 				<div class="collapse navbar-collapse" id="navbarColor01">
 					<ul class="navbar-nav me-auto">
-						<li class="nav-item">
-							{% if app.user %}
-								<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-							{% else %}
-								<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-							{% endif %}
+						<li class="nav-item" id="name-user">
+							<a class="nav-link" href="{{ path('caracter_index') }}">Personnages</a>
 						</li>
 					</ul>
+					{% if app.user %}
+						<ul class="navbar-nav nav-user user">
+							<li class="nav-item" id="name-user">
+								<h5 class="navbar-brand">
+									<u>{{ app.user.username }}</u>
+								</h5>
+							</li>
+							<li class="nav-item" id="img-user">
+								<img src="/img/unknown_user.jpg" alt="?">
+							</li>
+							<div id="option-user" class="user">
+								<li class="nav-item" id="name-user">
+									<a class="nav-link" href="{{ path('app_logout') }}">Paramétre</a>
+								</li>
+								{% if is_granted('ROLE_ADMIN') and app.user %}
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('app_parameter') }}">Panel admin</a>
+									</li>
+								{% endif %}
+								<li class="nav-item" id="name-user">
+									<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+								</li>
+							</div>
+
+						{% else %}
+							<ul class="navbar-nav nav-user">
+								<li class="nav-item" id="name-user">
+									<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+								</li>
+								<li class="nav-item" id="img-user">
+									<img src="img/unknown_user.jpg" alt="?">
+								</li>
+							{% endif %}
+
+						</ul>
+					</div>
 				</div>
-			</div>
-		</nav>
-		<div class="container"> {% block body %}{% endblock %}
-			</div>
+			</nav>
+
+			<div class="container"> {% block body %}{% endblock %}
+				</div>
+				<script src="/js/jquery.js"></script>
+				<script src="/js/app_user_action.js"></script>
+			</body>
 		</body>
 	</html>

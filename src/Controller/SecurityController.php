@@ -42,13 +42,13 @@ class SecurityController extends AbstractController
 
         $form->handleRequest($request);
 
-        dump($form);
-
         if($form->isSubmitted() && $form->isValid()){
 
             $hash = $hasher->hashPassword($user, $user->getPassword());
 
             $user->setPassword($hash);
+
+            $user->setRoles(["ROLE_ADMIN"]);
 
             $manager->persist($user);
 
@@ -69,5 +69,13 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    /**
+     * @Route("/parameter", name="app_parameter")
+     */
+    public function parameter(AuthenticationUtils $authenticationUtils): Response
+    {
+        return $this->render('parameter/parameter.html.twig');
     }
 }
